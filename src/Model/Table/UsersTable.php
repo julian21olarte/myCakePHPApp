@@ -72,7 +72,7 @@ class UsersTable extends Table
 
         $validator
             ->requirePresence('password', 'create')
-            ->notEmpty('password');
+            ->notEmpty('password', 'Rellene este campo.', 'create');
 
         $validator
             ->requirePresence('role', 'create')
@@ -107,4 +107,27 @@ class UsersTable extends Table
         
         return $query;
     }
+
+
+    public function recoverPassword($id) {
+        $user = $this->get($id);
+        return $user->password;
+
+    }
+
+
+    public function beforeDelete($event, $entity, $options) {
+        
+        if($entity->role == 'admin') {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+
+
+
 }

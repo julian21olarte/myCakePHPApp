@@ -29,6 +29,11 @@ class UsersController extends AppController
         $this->Flash->error('Datos son invalidos, por favor intente nuevamente', ['key' => 'auth']);
       }
     }
+
+
+    if($this->Auth->user()) {
+      return $this->redirect(['controller' => 'Users', 'action' => 'home']);
+    }
   }
 
 
@@ -82,6 +87,38 @@ public function logout() {
   }
 
 
+  public function edit($id = null) {
+
+    $user = $this->Users->get($id);
+    if($this->request->is(['patch', 'post', 'put'])) {
+      $user = $this->Users->patchEntity($user, $this->request->data);
+      if($this->Users->save($user)) {
+        $this->Flash->success('El usuario ha sido modificado correctmanete.');
+        return $this->redirect(['action' => 'index']);
+      }
+      else {
+          $this->Flash->error('El usuario no pudo ser modificado, por favor intente nuevamente.');
+      }
+    }
+    $this->set(compact('user'));
+  }
+
+
+
+  public function delete($id = null) {
+    $this->request->allowMethod(['post', 'delete']);
+    $user = $this->Users->get($id);
+
+    if($this->Users->delete($user)) {
+      $this->Flash->success('El usuario ha sido eliminado.');
+      return $this->redirect(['action' => 'index']);
+    }
+    else {
+
+      $this->Flash->error('El usuario no ha podido ser eliminado');  
+      return $this->redirect(['action' => 'index']);
+    }
+  }
 
 
 
