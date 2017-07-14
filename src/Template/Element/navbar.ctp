@@ -18,12 +18,20 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
+        <?php 
+          if($current_user['role'] == 'admin'):
+        ?>
         <li><?= $this->Html->link('Usuarios', ['controller' => 'Users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link('Nuevo Usuario', ['controller' => 'Users', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link('List Bookmarks', ['controller' => 'Bookmarks', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link('New Bookmark', ['controller' => 'Bookmarks', 'action' => 'add']) ?></li>
+
+        <?php
+          endif
+        ?>
+        <li><?= $this->Html->link('Mi lista', ['controller' => 'Bookmarks', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link('Nuevo Bookmark', ['controller' => 'Bookmarks', 'action' => 'add']) ?></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li><?= $this->Html->link('Perfil', ['controller' => 'Users', 'action' => 'view', $current_user['id']]) ?></li>
         <li><?= $this->Html->link('Salir', ['controller' => 'Users', 'action' => 'logout']) ?></li>
       </ul>
     </div><!-- /.navbar-collapse -->
